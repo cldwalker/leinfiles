@@ -22,4 +22,7 @@
 ;     (symbol (str '~nsname "/" v#))))
 ;  )
 
+(set! clojure.core/*print-length* 100)
+(set! clojure.core/*print-level* 5)
+
 (println "Loaded user.clj!")
