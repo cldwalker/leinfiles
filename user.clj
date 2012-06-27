@@ -1,5 +1,5 @@
 (ns u
-  (:require  [clojure.pprint :as pp])
+  (:require [clojure.pprint :as pp])
 )
 
 (defn class-path "Prints list of class paths" []
@@ -12,6 +12,10 @@
 
 (defn java-methods "List of methods for a java class" [klass]
   (sort (distinct (map #(.getName %) (seq (.getMethods klass))))))
+
+; mtable 'doc
+(defn mtable "Prints meta of a function as a table" [sym]
+  (table.core/table (meta (resolve sym))))
 
 ; TODO: can't construct full symbol for doc correctly
 ;(defmacro ls
