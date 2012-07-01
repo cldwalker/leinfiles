@@ -36,6 +36,23 @@
     (when-not (empty? unresolved)
       (println (str "\n" "Unable to resolve these symbols: " (string/join ", " unresolved))))))
 
+(defn ns-dynamic-vars
+  "dynamic vars for a namespace as determined by *var* convention"
+  ([] (ns-dynamic-vars *ns*))
+  ([nsname]
+   (let [nsmap (ns-map nsname)]
+     (->> nsmap (map first) (filter #(re-find #"^\*.*\*$" (str %))) (map #(nsmap %))))))
+
+(defn dvtable
+  "dynamic vars for a namespace mapped to their values"
+  ([] (dvtable *ns*))
+  ([nsname]
+   (table.core/table
+     (cons
+       ["Var" "Value"]
+       (map #(identity [% (deref %)]) (ns-dynamic-vars nsname))))))
+
+
 (set! clojure.core/*print-length* 100)
 (set! clojure.core/*print-level* 5)
 
