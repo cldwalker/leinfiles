@@ -7,9 +7,8 @@
   (pp/pprint  (seq  (.getURLs  (java.lang.ClassLoader/getSystemClassLoader))))
 )
 
-(defn spy "Simple print debugging" [& args]
-  (do (println (flatten args))
-      (flatten (identity args))))
+(defn spy "Simple print debugging" [arg]
+  (doto arg prn))
 
 (defn java-methods "List of methods for a java class" [klass]
   (sort (distinct (map #(.getName %) (seq (.getMethods klass))))))
