@@ -69,6 +69,9 @@
        :sort true
        options)))
 
+(defn envs "List of envs and their values" []
+  (->> (System/getenv) keys (reduce #(assoc %1 %2 (System/getenv %2)) {}) table.core/table))
+
 ; Configuration
 (set! clojure.core/*print-length* 100)
 (set! clojure.core/*print-level* 5)
