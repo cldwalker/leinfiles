@@ -7,6 +7,7 @@
   (pp/pprint  (seq  (.getURLs  (java.lang.ClassLoader/getSystemClassLoader))))
 )
 
+;TODO: macroize so it can sit in front of a call like apply
 (defn spy "Simple print debugging" [arg]
   (doto arg prn))
 
@@ -45,12 +46,15 @@
 
 (defn dvtable
   "dynamic vars for a namespace mapped to their values"
-  ([] (dvtable *ns*))
-  ([nsname]
-   (table.core/table
-     (cons
-       ["Var" "Value"]
-       (map #(identity [% (deref %)]) (ns-dynamic-vars nsname))))))
+   [& options]
+   (let [opts (apply hash-map options)]
+     (apply
+       table.core/table
+       (cons
+         ["Var" "Value"]
+         (map #(identity [% (deref %)]) (ns-dynamic-vars (get opts :ns *ns*))))
+       :sort true
+       options)))
 
 
 (set! clojure.core/*print-length* 100)
