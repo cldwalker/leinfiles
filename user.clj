@@ -1,5 +1,5 @@
 (ns u
-  (:require [clojure.pprint :as pp])
+  (:require [clojure.pprint])
   (:require [clojure.string :as string]))
 
 ; =======
@@ -36,6 +36,16 @@
     (when-not (empty? unresolved)
       (println (str "\n" "Unable to resolve these symbols: " (string/join ", " unresolved))))))
 
+(def ^:dynamic *display* :table)
+
+(defn display
+  "Pretty prints data or returns it depending on value of *display*. Default is to print with table."
+  [data & options]
+  (case *display*
+    :pprint (do (clojure.pprint/pprint data) (println ""))
+    :self (identity data)
+    (apply table.core/table data options)))
+
 ; =========
 ; Inspectors: inspect vars, namespaces, fns, envs, properties ...
 
@@ -44,19 +54,19 @@
 
 ; mtable 'doc
 (defn var-meta "Prints meta of a symbol" [sym]
-  (table.core/table (meta (resolve sym))))
+  (display (meta (resolve sym))))
 
 (defn vars-meta "Prints public vars for a namespace with its meta info"
   ([] (vars-meta *ns*))
   ([nsname]
-    (table.core/table (map #( meta (resolve %)) (clojure.repl/dir-fn nsname)))))
+    (display (map #( meta (resolve %)) (clojure.repl/dir-fn nsname)))))
 
 (defn vars-values
   "Prints dynamic vars for a namespace mapped to their values"
    [& options]
    (let [opts (apply hash-map options)]
      (apply
-       table.core/table
+       display
        (cons
          ["Var" "Value"]
          (map #(identity [% (deref %)]) (ns-dynamic-vars (get opts :ns *ns*))))
@@ -64,15 +74,15 @@
        options)))
 
 (defn class-paths "Prints list of class paths" []
-  (pp/pprint (seq (.getURLs (java.lang.ClassLoader/getSystemClassLoader)))))
+  (clojure.pprint/pprint (seq (.getURLs (java.lang.ClassLoader/getSystemClassLoader)))))
 
 (defn properties "List properties and their values" []
-  (table.core/table
+  (display
     (->> (System/getProperties) .stringPropertyNames
       (reduce #(assoc %1 %2 (System/getProperty %2)) {}))))
 
 (defn envs "List of envs and their values" []
-  (->> (System/getenv) keys (reduce #(assoc %1 %2 (System/getenv %2)) {}) table.core/table))
+  (->> (System/getenv) keys (reduce #(assoc %1 %2 (System/getenv %2)) {}) display))
 
 ; Configuration
 (set! clojure.core/*print-length* 100)
