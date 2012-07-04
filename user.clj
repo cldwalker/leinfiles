@@ -28,8 +28,7 @@
 (defn spy "Simple print debugging" [arg]
   (doto arg prn))
 
-(defn doc-dir [nsname]
-  "Prints docs for a given namespace"
+(defn doc-dir "Prints docs for a given namespace" [nsname]
   (let [ [resolved unresolved] (split resolve (clojure.repl/dir-fn nsname)) ]
     (doseq [sym resolved]
       (@#'clojure.repl/print-doc (meta (sym-to-var sym))))
