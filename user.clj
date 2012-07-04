@@ -43,22 +43,16 @@
   (sort (distinct (map #(.getName %) (seq (.getMethods klass))))))
 
 ; mtable 'doc
-(defn mtable "Prints meta of a function as a table" [sym]
+(defn var-meta "Prints meta of a symbol" [sym]
   (table.core/table (meta (resolve sym))))
 
-(defn dir-mtable "Prints public vars for a namespace with its meta info" [nsname]
-  (table.core/table (map #( meta (resolve %)) (clojure.repl/dir-fn nsname))))
+(defn vars-meta "Prints public vars for a namespace with its meta info"
+  ([] (vars-meta *ns*))
+  ([nsname]
+    (table.core/table (map #( meta (resolve %)) (clojure.repl/dir-fn nsname)))))
 
-(defn class-path "Prints list of class paths" []
-  (pp/pprint  (seq  (.getURLs  (java.lang.ClassLoader/getSystemClassLoader)))))
-
-(defn properties "List properties and their values" []
-  (table.core/table
-    (->> (System/getProperties) .stringPropertyNames
-      (reduce #(assoc %1 %2 (System/getProperty %2)) {}))))
-
-(defn dvtable
-  "dynamic vars for a namespace mapped to their values"
+(defn vars-values
+  "Prints dynamic vars for a namespace mapped to their values"
    [& options]
    (let [opts (apply hash-map options)]
      (apply
@@ -68,6 +62,14 @@
          (map #(identity [% (deref %)]) (ns-dynamic-vars (get opts :ns *ns*))))
        :sort true
        options)))
+
+(defn class-paths "Prints list of class paths" []
+  (pp/pprint (seq (.getURLs (java.lang.ClassLoader/getSystemClassLoader)))))
+
+(defn properties "List properties and their values" []
+  (table.core/table
+    (->> (System/getProperties) .stringPropertyNames
+      (reduce #(assoc %1 %2 (System/getProperty %2)) {}))))
 
 (defn envs "List of envs and their values" []
   (->> (System/getenv) keys (reduce #(assoc %1 %2 (System/getenv %2)) {}) table.core/table))
