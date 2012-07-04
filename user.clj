@@ -73,7 +73,7 @@
        options)))
 
 (defn class-paths "Prints list of class paths" []
-  (clojure.pprint/pprint (seq (.getURLs (java.lang.ClassLoader/getSystemClassLoader)))))
+  (display (seq (.getURLs (java.lang.ClassLoader/getSystemClassLoader)))))
 
 (defn properties "List properties and their values" []
   (display
