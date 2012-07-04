@@ -4,8 +4,7 @@
 )
 
 (defn class-path "Prints list of class paths" []
-  (pp/pprint  (seq  (.getURLs  (java.lang.ClassLoader/getSystemClassLoader))))
-)
+  (pp/pprint  (seq  (.getURLs  (java.lang.ClassLoader/getSystemClassLoader)))))
 
 ;TODO: macroize so it can sit in front of a call like apply
 (defn spy "Simple print debugging" [arg]
@@ -13,6 +12,11 @@
 
 (defn java-methods "List of methods for a java class" [klass]
   (sort (distinct (map #(.getName %) (seq (.getMethods klass))))))
+
+(defn properties "List properties and their values" []
+  (table.core/table
+    (->> (System/getProperties) .stringPropertyNames
+      (reduce #(assoc %1 %2 (System/getProperty %2)) {}))))
 
 ; mtable 'doc
 (defn mtable "Prints meta of a function as a table" [sym]
@@ -37,6 +41,7 @@
     (when-not (empty? unresolved)
       (println (str "\n" "Unable to resolve these symbols: " (string/join ", " unresolved))))))
 
+; TODO: only display vars local to a namespace
 (defn ns-dynamic-vars
   "dynamic vars for a namespace as determined by *var* convention"
   ([] (ns-dynamic-vars *ns*))
