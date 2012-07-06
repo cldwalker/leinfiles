@@ -35,6 +35,10 @@
     (when-not (empty? unresolved)
       (println (str "\n" "Unable to resolve these symbols: " (string/join ", " unresolved))))))
 
+(defn pster "Print full error stack"
+  ([] (pster *e))
+  ([err] (->> err .getStackTrace (map clojure.repl/stack-element-str) display)))
+
 (def ^:dynamic *display* :table)
 
 (defn display
@@ -50,6 +54,9 @@
 
 (defn java-methods "List of methods for a java class" [klass]
   (sort (distinct (map #(.getName %) (seq (.getMethods klass))))))
+
+(defn java-methods-for "List of methods for java object" [obj]
+  (java-methods (class obj)))
 
 ; mtable 'doc
 (defn var-meta "Prints meta of a symbol" [sym]
