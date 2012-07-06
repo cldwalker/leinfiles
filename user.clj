@@ -35,9 +35,9 @@
     (when-not (empty? unresolved)
       (println (str "\n" "Unable to resolve these symbols: " (string/join ", " unresolved))))))
 
-(defn pster "Print full error stack"
-  ([] (pster *e))
-  ([err] (->> err .getStackTrace (map clojure.repl/stack-element-str) display)))
+; TODO: macroize for non-reply repls
+;(defn jdoc "javadoc an object" [obj]
+;  (user/javadoc (class obj)))
 
 (def ^:dynamic *display* :table)
 
@@ -48,6 +48,10 @@
     :pprint (do (clojure.pprint/pprint data) (println ""))
     :self (identity data)
     (apply table.core/table data options)))
+
+(defn pster "Print full error stack"
+  ([] (pster *e))
+  ([err] (->> err .getStackTrace (map clojure.repl/stack-element-str) display)))
 
 ; =========
 ; Inspectors: inspect vars, namespaces, fns, envs, properties ...
