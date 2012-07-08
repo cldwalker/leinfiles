@@ -34,8 +34,8 @@
       (@#'clojure.repl/print-doc (meta v)))))
 
 ; TODO: macroize for non-reply repls
-;(defn jdoc "javadoc an object" [obj]
-;  (user/javadoc (class obj)))
+(defn jdoc "javadoc an object" [obj]
+  (clojure.java.javadoc/javadoc (class obj)))
 
 (def ^:dynamic *display* :table)
 
