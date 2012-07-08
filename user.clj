@@ -69,7 +69,7 @@
 (defn vars-meta "Prints public vars for a namespace with its meta info"
   ([] (vars-meta *ns*))
   ([nsname]
-    (display (map #( meta (resolve %)) (clojure.repl/dir-fn nsname)))))
+    (display (map #( meta (ns-resolve (the-ns nsname) %)) (clojure.repl/dir-fn nsname)))))
 
 (defn vars-values
   "Prints dynamic vars for a namespace mapped to their values"
