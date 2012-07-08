@@ -1,4 +1,5 @@
-(ns u
+(ns user
+  (:require table.core)
   (:require [clojure.pprint])
   (:require [clojure.string :as string]))
 
