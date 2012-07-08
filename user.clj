@@ -29,11 +29,9 @@
   (doto arg prn))
 
 (defn doc-dir "Prints docs for a given namespace" [nsname]
-  (let [ [resolved unresolved] (split resolve (clojure.repl/dir-fn nsname)) ]
-    (doseq [sym resolved]
-      (@#'clojure.repl/print-doc (meta (sym-to-var sym))))
-    (when-not (empty? unresolved)
-      (println (str "\n" "Unable to resolve these symbols: " (string/join ", " unresolved))))))
+  (let [resolved (map #(ns-resolve (the-ns nsname) %) (clojure.repl/dir-fn nsname))]
+    (doseq [v resolved]
+      (@#'clojure.repl/print-doc (meta v)))))
 
 ; TODO: macroize for non-reply repls
 ;(defn jdoc "javadoc an object" [obj]
