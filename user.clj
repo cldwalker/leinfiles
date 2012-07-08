@@ -60,7 +60,6 @@
 (defn java-methods-for "List of methods for java object" [obj]
   (java-methods (class obj)))
 
-; mtable 'doc
 (defn var-meta "Prints meta of a symbol" [sym]
   (display (meta (resolve sym))))
 
