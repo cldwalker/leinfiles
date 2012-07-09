@@ -72,6 +72,19 @@
      (remove #(not (var? %)))
      (map meta) display)))
 
+(defn var-search "Same as apropos but returns definitions by namespace"
+   [str-or-pattern]
+   (let [matches? (if (instance? java.util.regex.Pattern str-or-pattern)
+                    #(re-find str-or-pattern  (str %))
+                    #(.contains  (str %)  (str str-or-pattern)))]
+     (->>
+       (reduce
+         #(assoc %1 %2 (vec (filter matches? (keys (ns-publics %2)))))
+         {}
+         (all-ns))
+       (remove #(zero? (count (second %1))))
+       display)))
+
 (defn vars-values
   "Prints dynamic vars for a namespace mapped to their values"
    [& options]
