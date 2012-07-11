@@ -22,6 +22,10 @@
    (let [nsmap (ns-map nsname)]
      (->> nsmap (map first) (filter #(re-find #"^\*.*\*$" (str %))) (map #(nsmap %))))))
 
+(defn invert-vec-map [vec-map]
+  (apply hash-map
+    (flatten (mapcat (fn [pair] (map #(identity [% (first pair)]) (second pair))) vec-map))))
+
 ; =========
 ; Misc: Collection of useful fns for doc, debugging, etc.
 
@@ -83,6 +87,7 @@
          {}
          (all-ns))
        (remove #(zero? (count (second %1))))
+       invert-vec-map
        display)))
 
 (defn vars-values
