@@ -22,6 +22,7 @@
    (let [nsmap (ns-map nsname)]
      (->> nsmap (map first) (filter #(re-find #"^\*.*\*$" (str %))) (map #(nsmap %))))))
 
+; TODO: handle names in multiple namespaces
 (defn invert-vec-map [vec-map]
   (apply hash-map
     (flatten (mapcat (fn [pair] (map #(identity [% (first pair)]) (second pair))) vec-map))))

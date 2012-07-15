@@ -12,6 +12,7 @@ Basic setup:
     $ git clone https://github.com/cldwalker/leinfiles.git
     $ cd leinfiles
     $ ln -s $PWD/user.clj ~/.lein/
+    $ ln -s $PWD/user ~/.lein/
     $ ln -s $PWD/profiles.clj ~/.lein/
 
 For older versions of leiningen or if using a different repl, you can always explicitly load the
