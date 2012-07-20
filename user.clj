@@ -14,6 +14,11 @@
   "Like ruby's partition"
   [(filter f coll) (remove f coll)])
 
+(defn has-fn?
+  "Indicates if a namespace has a fn"
+  ([fun] (has-fn? fun *ns*))
+  ([fun nsp] (#(if (var? %) (fn? (deref %)) false) (ns-resolve nsp fun))))
+
 ; TODO: only display vars local to a namespace
 (defn ns-dynamic-vars
   "dynamic vars for a namespace as determined by *var* convention"
