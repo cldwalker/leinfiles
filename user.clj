@@ -1,7 +1,8 @@
 (ns user
-  (:require table.core)
-  (:require [clojure.pprint])
-  (:require [clojure.string :as string]))
+  (:require clojure.pprint
+            table.core
+            clojure.java.io
+            [clojure.string :as string]))
 
 ; =======
 ; Utilities: general purpose fns to be used mostly inside other fns
@@ -9,6 +10,12 @@
 (defn sym-to-var [sym]
   "Converts a symbol to var"
   ((ns-interns ((meta (resolve sym)) :ns)) sym))
+
+(defn command-exists? [cmd]
+  "Determines if command exists in $PATH"
+  (some
+    #(-> (str % "/" cmd) clojure.java.io/file .isFile)
+    (-> (System/getenv "PATH") (clojure.string/split #":"))))
 
 ; TODO: only display vars local to a namespace
 (defn ns-dynamic-vars
