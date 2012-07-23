@@ -7,12 +7,14 @@
 ; =======
 ; Utilities: general purpose fns to be used mostly inside other fns
 
-(defn sym-to-var [sym]
+(defn sym-to-var
   "Converts a symbol to var"
+  [sym]
   ((ns-interns ((meta (resolve sym)) :ns)) sym))
 
-(defn command-exists? [cmd]
+(defn command-exists?
   "Determines if command exists in $PATH"
+  [cmd]
   (some
     #(-> (str % "/" cmd) clojure.java.io/file .isFile)
     (-> (System/getenv "PATH") (clojure.string/split #":"))))
