@@ -6,6 +6,6 @@
        (use '[table.core :only (table)])
        (use '[clojure.repl :only (dir-fn)])
        (load-file (str (System/getProperty "user.home") "/.lein/user.clj"))) }
+ :dependencies {table "0.3.2" com.datomic/datomic "0.1.3164" clj-stacktrace "0.2.4"}
  }
- :dependencies {table "0.3.2" com.datomic/datomic "0.1.3164"}
 }
