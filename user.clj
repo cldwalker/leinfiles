@@ -39,6 +39,9 @@
 (defn spy "Simple print debugging" [arg]
   (doto arg prn))
 
+(defn eval-def "Can def inside a namespace" [qnsp qdef]
+  (binding [*ns* (find-ns qnsp)] (eval qdef)))
+
 (defn doc-dir "Prints docs for a given namespace" [nsname]
   (let [resolved (map #(ns-resolve (the-ns nsname) %) (clojure.repl/dir-fn nsname))]
     (doseq [v resolved]
