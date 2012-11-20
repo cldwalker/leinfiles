@@ -1,6 +1,6 @@
 {
  :user {
-   :plugins [[lein-clojars "0.9.0"] [lein-light "0.0.4"]]
+   :plugins [[lein-clojars "0.9.0"] [lein-light "0.0.4"] [lein-catnip "0.5.0"]]
    :repl-options {
      :init (do
        (use '[table.core :only (table)])
