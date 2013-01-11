@@ -4,6 +4,7 @@
              ;[lein-clojars "0.9.0"]
              ;[lein-light "0.0.4"]
              [lein-deps-tree "0.1.2"]
+             [lein-difftest "2.0.0"]
              ]
    :repl-options {
      :init (do
