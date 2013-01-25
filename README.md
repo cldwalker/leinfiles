@@ -15,6 +15,10 @@ Basic setup:
     $ ln -s $PWD/user ~/.lein/
     $ ln -s $PWD/profiles.clj ~/.lein/
 
+    # Until desc is a clojar
+    $ git clone https://github.com/cldwalker/desc
+    $ cd desc && lein install
+
 For older versions of leiningen or if using a different repl, you can always explicitly load the
 file from the repl:
 
