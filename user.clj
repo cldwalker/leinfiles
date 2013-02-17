@@ -122,6 +122,29 @@
 (defn envs "List of envs and their values" []
   (->> (System/getenv) keys (reduce #(assoc %1 %2 (System/getenv %2)) {}) display))
 
+;; https://gist.github.com/alandipert/1619740
+(defn findcore
+  "Returns a lazy sequence of functions in clojure.core that, when applied to args,
+  return ret."
+  ([args ret]
+     (findcore (filter #(not (:macro (meta %)))
+                       (vals (ns-publics 'clojure.core))) args ret))
+  ([[f & fns] args ret]
+     (lazy-seq
+      (when f
+        (if (binding [*out* (proxy [java.io.Writer] []
+                              (write [_])
+                              (close [])
+                              (flush []))]
+              (try
+                (= ret (apply f args))
+                (catch Throwable t)))
+          (cons (:name (meta f)) (findcore fns args ret))
+          (findcore fns args ret))))))
+
+(defmacro fc [args ret]
+  `(findcore '~args '~ret))
+
 ; Configuration
 (set! clojure.core/*print-length* 100)
 (set! clojure.core/*print-level* 5)
