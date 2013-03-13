@@ -2,6 +2,7 @@
   (:require clojure.pprint
             table.core
             clojure.java.io
+            [clojure.java.shell :as sh]
             [clojure.string :as string]))
 
 ; =======
@@ -144,6 +145,15 @@
 
 (defmacro fc [args ret]
   `(findcore '~args '~ret))
+
+(defn- background-sh
+  "Execute command in the background and return its pid"
+  [cmd]
+  (->>
+   (sh/sh "bash" "-c" (format "%s 1>test.log 2>&1 & \n echo $!" cmd))
+   :out
+   (re-find #"(\d+)\n")
+   second))
 
 ; Configuration
 (set! clojure.core/*print-length* 100)
