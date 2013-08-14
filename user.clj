@@ -2,6 +2,7 @@
   (:require clojure.pprint
             table.core
             clojure.java.io
+            clojure.java.javadoc
             [clojure.java.shell :as sh]
             [clojure.string :as string]))
 
