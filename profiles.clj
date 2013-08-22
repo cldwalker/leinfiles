@@ -8,7 +8,8 @@
              [lein-open "0.1.0"]
              [lein-outdated "1.0.0"]
              [lein-exec "0.3.0"]
-             ;[lein-pprint "1.1.1"]
+             [lein-pprint "1.1.1"]
+             [lein-spell "0.1.0"]
              ]
    :repl-options {
      :init (do
