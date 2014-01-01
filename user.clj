@@ -124,6 +124,15 @@
 (defn envs "List of envs and their values" []
   (->> (System/getenv) keys (reduce #(assoc %1 %2 (System/getenv %2)) {}) display))
 
+;; http://www.learningclojure.com/2010/09/astonishing-macro-of-narayan-singhal.html
+(defmacro def-let
+  "like let, but binds the expressions globally."
+  [bindings & more]
+  (let [let-expr (macroexpand `(let ~bindings))
+        names-values (partition 2 (second let-expr))
+        defs   (map #(cons 'def %) names-values)]
+    (concat (list 'do) defs more)))
+
 ;; https://gist.github.com/alandipert/1619740
 (defn findcore
   "Returns a lazy sequence of functions in clojure.core that, when applied to args,
