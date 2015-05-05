@@ -11,9 +11,7 @@ Basic setup:
 
     $ git clone https://github.com/cldwalker/leinfiles.git
     $ cd leinfiles
-    $ ln -s $PWD/user.clj ~/.lein/
-    $ ln -s $PWD/user ~/.lein/
-    $ ln -s $PWD/profiles.clj ~/.lein/
+    $ ./install.sh
 
     # Until desc is a clojar
     $ git clone https://github.com/cldwalker/desc
