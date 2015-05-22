@@ -1,10 +1,11 @@
 {
  :user {
+   :repositories [["clojars" {:sign-releases false}]]
    :plugins [
              ;; [lein-clojars "0.9.0"]
              ;; [lein-light "0.0.4"]
              ;; [lein-difftest "2.0.0"]
-             ;; [lein-grep "0.1.0"]
+             ;; [lein-grep "0.1.1"]
              ;; [lein-open "0.1.0"]
              ;; [lein-outdated "1.0.0"]
              ;; [lein-exec "0.3.0"]
